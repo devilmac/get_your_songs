@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <SearchLyricResponse xmlns="http://api.chartlyrics.com/">
+            <SearchLyricResult>
+                <SearchLyricResult>
+                    <TrackId>0</TrackId>
+                    <LyricChecksum>f07ca28ad6e9f34e50d1c56e8e762865</LyricChecksum>
+                    <LyricId>21242</LyricId>
+                    <SongUrl>http://www.chartlyrics.com/CEn3O7PoWEGPrk_XlbtEdA/Sally.aspx</SongUrl>
+                    <ArtistUrl>http://www.chartlyrics.com/CEn3O7PoWEGPrk_XlbtEdA.aspx</ArtistUrl>
+                    <Artist>Vasco Rossi</Artist>
+                    <Song>Sally</Song>
+                    <SongRank>8</SongRank>
+                </SearchLyricResult>
+                <SearchLyricResult xsi:nil="true" />
+            </SearchLyricResult>
+        </SearchLyricResponse>
+    </soap:Body>
+</soap:Envelope>
