@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     private FragmentManager fragmentManager;
 
+    private PlayerScreenFragment playerScreenFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,6 +62,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivityFragment).commit();
 
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (playerScreenFragment != null) {
+
+            unregisterReceiver(playerScreenFragment.chartLyricsBroadcastReceiver);
+        }
+
+        super.onDestroy();
     }
 
     @Override
@@ -90,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     public void showSnackBar(boolean isRetrofit2Enabled) {
 
-        Snackbar.make(coordinatorLayout, isRetrofit2Enabled ? "Using Retrofit2" : "Using Retrofit1", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -117,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
                 onLoggedIn();
 
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, PlayerScreenFragment.newInstance(response.getAccessToken())).addToBackStack(PlayerScreenFragment.class.getCanonicalName()).commit();
+                playerScreenFragment = PlayerScreenFragment.newInstance(response.getAccessToken());
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, playerScreenFragment).addToBackStack(PlayerScreenFragment.class.getCanonicalName()).commit();
             }
         }
     }

@@ -6,6 +6,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
+        <receiver
+            android:name=".receiver.ChartLyricsBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.spotify.music.playbackstatechanged" />
+                <action android:name="com.spotify.music.metadatachanged" />
+                <action android:name="com.spotify.music.queuechanged" />
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>

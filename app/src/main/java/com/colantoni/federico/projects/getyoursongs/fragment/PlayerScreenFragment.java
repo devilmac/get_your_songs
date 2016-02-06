@@ -1,5 +1,6 @@
 package com.colantoni.federico.projects.getyoursongs.fragment;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,11 @@ import android.widget.TextView;
 
 import com.colantoni.federico.projects.getyoursongs.R;
 import com.colantoni.federico.projects.getyoursongs.util.Helper;
+import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.receiver.ChartLyricsBroadcastReceiver;
+import com.colantoni.federico.projects.networkmodule.retrofit.ChartLyricsAPI;
+import com.colantoni.federico.projects.networkmodule.service.ChartLyricsService;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
@@ -21,10 +27,15 @@ import com.spotify.sdk.android.player.Spotify;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class PlayerScreenFragment extends Fragment implements PlayerStateCallback, PlayerNotificationCallback, View.OnClickListener {
+public class PlayerScreenFragment extends Fragment implements PlayerStateCallback, PlayerNotificationCallback, View.OnClickListener, ChartLyricsBroadcastReceiver.ChartLyricsBroadcastReceiverListener {
 
     private static final String BUNDLE_KEY_ACCESS_TOKEN = "BUNDLE_KEY_ACCESS_TOKEN";
+
+    public ChartLyricsBroadcastReceiver chartLyricsBroadcastReceiver;
 
     @Bind(R.id.songTitle)
     TextView songTitle;
@@ -76,9 +87,21 @@ public class PlayerScreenFragment extends Fragment implements PlayerStateCallbac
     }
 
     @Override
+    public void onStart() {
+
+        super.onStart();
+
+        chartLyricsBroadcastReceiver = new ChartLyricsBroadcastReceiver();
+        chartLyricsBroadcastReceiver.setListener(this);
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
+
+        IntentFilter intentFilter = new IntentFilter("com.spotify.music.metadatachanged");
+        getActivity().registerReceiver(chartLyricsBroadcastReceiver, intentFilter);
 
         skipPrev.setOnClickListener(this);
         skipNext.setOnClickListener(this);
@@ -157,5 +180,46 @@ public class PlayerScreenFragment extends Fragment implements PlayerStateCallbac
 
             default:
         }
+    }
+
+    @Override
+    public void metadataChanged(String trackId, String artistName, String albumName, String trackName, int trackLengthInSec) {
+
+        songArtist.setText(artistName);
+        songTitle.setText(trackName);
+
+        // TODO: 06/02/16 get lyric from ChartLyrics
+
+        ChartLyricsAPI chartLyricsAPI = ChartLyricsService.createRetrofitService(ChartLyricsAPI.class);
+
+        SearchLyricDirectRequestEnvelope.RequestBody.SearchLyricDirect searchLyricDirect = new SearchLyricDirectRequestEnvelope.RequestBody.SearchLyricDirect(artistName, trackName);
+
+        SearchLyricDirectRequestEnvelope.RequestBody requestBody = new SearchLyricDirectRequestEnvelope.RequestBody(searchLyricDirect);
+
+        SearchLyricDirectRequestEnvelope searchLyricDirectRequestEnvelope = new SearchLyricDirectRequestEnvelope(requestBody);
+
+        final Call<SearchLyricDirectResponseEnvelope> call = chartLyricsAPI.searchLyricDirect(searchLyricDirectRequestEnvelope);
+
+        call.enqueue(new Callback<SearchLyricDirectResponseEnvelope>() {
+
+            @Override
+            public void onResponse(Response<SearchLyricDirectResponseEnvelope> response) {
+
+                if (response.isSuccess()) {
+
+                    songLyric.setText(response.body().getResponseBody().getSearchLyricResponse().getSearchLyricResult().getLyric());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void playbackStateChanged(boolean isPlaying, int positionInMs) {
+
     }
 }
