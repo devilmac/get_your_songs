@@ -1,8 +1,11 @@
 package com.colantoni.federico.projects.getyoursongs.activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +20,7 @@ import com.colantoni.federico.projects.getyoursongs.fragment.MainActivityFragmen
 import com.colantoni.federico.projects.getyoursongs.fragment.PlayerScreenFragment;
 import com.colantoni.federico.projects.getyoursongs.setting.SettingsActivity;
 import com.colantoni.federico.projects.getyoursongs.util.Helper;
+import com.premnirmal.Magnet.Magnet;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     private static final int LOGIN_SPOTIFY_REQUEST_CODE = 8573;
 
+    private static final int MAGNET_REQUEST_CODE = 647;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -37,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+
+    private Magnet.Builder chartLyricBuilder;
+
+    private Magnet chartLyricsMagnet;
 
     private MainActivityFragment mainActivityFragment;
 
@@ -56,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         setSupportActionBar(toolbar);
 
+        chartLyricBuilder = new Magnet.Builder(this).setIconView(R.mipmap.ic_launcher).setShouldStickToWall(true).setShouldFlingAway(true).setRemoveIconResId(R.drawable.trash).setRemoveIconShadow(R.drawable.bottom_shadow).setInitialPosition(-100, -200);
+
         fragmentManager = getSupportFragmentManager();
 
         mainActivityFragment = new MainActivityFragment();
@@ -65,12 +77,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     }
 
     @Override
+    protected void onResumeFragments() {
+
+        super.onResumeFragments();
+
+        checkDrawOverlayPermission();
+    }
+
+    @Override
     protected void onDestroy() {
 
         if (playerScreenFragment != null) {
 
             unregisterReceiver(playerScreenFragment.chartLyricsBroadcastReceiver);
         }
+
+        chartLyricsMagnet.destroy();
 
         super.onDestroy();
     }
@@ -133,6 +155,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 fragmentManager.beginTransaction().replace(R.id.fragmentContainer, playerScreenFragment).addToBackStack(PlayerScreenFragment.class.getCanonicalName()).commit();
             }
         }
+        else if (MAGNET_REQUEST_CODE == requestCode) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                if (Settings.canDrawOverlays(this)) {
+
+                    // continue here - permission was granted
+                    chartLyricsMagnet = chartLyricBuilder.build();
+                    chartLyricsMagnet.show();
+                    chartLyricsMagnet.setPosition(200, 400, true);
+                }
+            }
+        }
     }
 
     @Override
@@ -165,5 +200,32 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     public void onConnectionMessage(String s) {
 
+    }
+
+    public void checkDrawOverlayPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (!Settings.canDrawOverlays(this)) {
+
+                final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+
+                startActivityForResult(intent, MAGNET_REQUEST_CODE);
+            }
+            else {
+
+                // continue here - permission was granted
+                chartLyricsMagnet = chartLyricBuilder.build();
+                chartLyricsMagnet.show();
+                chartLyricsMagnet.setPosition(200, 400, true);
+            }
+        }
+        else {
+
+            // continue here - permission was granted
+            chartLyricsMagnet = chartLyricBuilder.build();
+            chartLyricsMagnet.show();
+            chartLyricsMagnet.setPosition(200, 400, true);
+        }
     }
 }

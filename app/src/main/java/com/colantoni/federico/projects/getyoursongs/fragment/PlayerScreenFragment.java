@@ -203,16 +203,13 @@ public class PlayerScreenFragment extends Fragment implements PlayerStateCallbac
         call.enqueue(new Callback<SearchLyricDirectResponseEnvelope>() {
 
             @Override
-            public void onResponse(Response<SearchLyricDirectResponseEnvelope> response) {
+            public void onResponse(Call<SearchLyricDirectResponseEnvelope> call, Response<SearchLyricDirectResponseEnvelope> response) {
 
-                if (response.isSuccess()) {
-
-                    songLyric.setText(response.body().getResponseBody().getSearchLyricResponse().getSearchLyricResult().getLyric());
-                }
+                songLyric.setText(response.body().getResponseBody().getSearchLyricResponse().getSearchLyricResult().getLyric());
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<SearchLyricDirectResponseEnvelope> call, Throwable t) {
 
             }
         });
