@@ -1,6 +1,7 @@
 <manifest package="com.colantoni.federico.projects.networkmodule"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
@@ -18,8 +19,9 @@
                 <action android:name="com.spotify.music.metadatachanged" />
                 <action android:name="com.spotify.music.queuechanged" />
             </intent-filter>
-
         </receiver>
+
+        <service android:name=".service.ChartLyricsMainService" />
     </application>
 
 </manifest>

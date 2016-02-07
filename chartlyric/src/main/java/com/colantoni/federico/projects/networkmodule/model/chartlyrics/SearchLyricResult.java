@@ -1,4 +1,4 @@
-package com.colantoni.federico.projects.networkmodule.model;
+package com.colantoni.federico.projects.networkmodule.model.chartlyrics;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

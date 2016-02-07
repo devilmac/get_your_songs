@@ -1,4 +1,4 @@
-package com.colantoni.federico.projects.networkmodule.model.searchlyric;
+package com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;

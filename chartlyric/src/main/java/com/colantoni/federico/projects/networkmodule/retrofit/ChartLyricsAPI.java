@@ -1,11 +1,11 @@
 package com.colantoni.federico.projects.networkmodule.retrofit;
 
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricResponseEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectResponseEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyrictext.SearchLyricTextRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyrictext.SearchLyricTextResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect.SearchLyricDirectRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect.SearchLyricDirectResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext.SearchLyricTextRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext.SearchLyricTextResponseEnvelope;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

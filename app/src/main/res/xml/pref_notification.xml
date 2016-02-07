@@ -1,7 +1,0 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/key_setting_retrofit"
-        android:title="@string/pref_title_enable_disable_retrofit2" />
-</PreferenceScreen>
