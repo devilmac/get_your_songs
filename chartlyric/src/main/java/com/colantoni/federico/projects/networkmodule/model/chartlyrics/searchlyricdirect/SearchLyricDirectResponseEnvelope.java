@@ -1,4 +1,4 @@
-package com.colantoni.federico.projects.networkmodule.model.searchlyricdirect;
+package com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;

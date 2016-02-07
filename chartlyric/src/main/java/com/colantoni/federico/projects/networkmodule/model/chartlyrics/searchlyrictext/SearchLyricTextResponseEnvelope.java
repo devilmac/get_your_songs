@@ -1,6 +1,6 @@
-package com.colantoni.federico.projects.networkmodule.model.searchlyrictext;
+package com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext;
 
-import com.colantoni.federico.projects.networkmodule.model.SearchLyricResult;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.SearchLyricResult;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;

@@ -1,4 +1,4 @@
-package com.colantoni.federico.projects.networkmodule.model.searchlyricdirect;
+package com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -8,41 +8,37 @@ import org.simpleframework.xml.Root;
 
 @Root(name = "soap12:Envelope")
 @NamespaceList({@Namespace(reference = "http://www.w3.org/2001/XMLSchema-instance", prefix = "xsi"), @Namespace(reference = "http://www.w3.org/2001/XMLSchema", prefix = "xsd"), @Namespace(prefix = "soap12", reference = "http://www.w3.org/2003/05/soap-envelope")})
-public class SearchLyricDirectRequestEnvelope {
+public class SearchLyricTextRequestEnvelope {
 
     @Element(name = "soap12:Body")
     RequestBody requestBody;
 
-    public SearchLyricDirectRequestEnvelope(RequestBody requestBody) {
+    public SearchLyricTextRequestEnvelope(RequestBody requestBody) {
 
         this.requestBody = requestBody;
     }
 
     public static class RequestBody {
 
-        @Element(name = "SearchLyricDirect")
-        SearchLyricDirect searchLyric;
+        @Element(name = "SearchLyricText")
+        SearchLyricText searchLyric;
 
-        public RequestBody(SearchLyricDirect searchLyricDirect) {
+        public RequestBody(SearchLyricText searchLyric) {
 
-            this.searchLyric = searchLyricDirect;
+            this.searchLyric = searchLyric;
         }
 
-        public static class SearchLyricDirect {
+        public static class SearchLyricText {
 
             @Attribute(name = "xmlns")
             static final String xmlNS = "http://api.chartlyrics.com/";
 
-            @Element(name = "artist")
-            String artist;
+            @Element(name = "lyricText")
+            String lyricText;
 
-            @Element(name = "song")
-            String song;
+            public SearchLyricText(String lyricText) {
 
-            public SearchLyricDirect(String artist, String song) {
-
-                this.artist = artist;
-                this.song = song;
+                this.lyricText = lyricText;
             }
         }
     }

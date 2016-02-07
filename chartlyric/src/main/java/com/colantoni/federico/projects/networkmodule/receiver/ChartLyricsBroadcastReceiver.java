@@ -4,21 +4,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.colantoni.federico.projects.networkmodule.receiver.ChartLyricsBroadcastReceiver.BROADCAST_TYPES.METADATA_CHANGED;
 import static com.colantoni.federico.projects.networkmodule.receiver.ChartLyricsBroadcastReceiver.BROADCAST_TYPES.PLAYBACK_STATE_CHANGED;
 import static com.colantoni.federico.projects.networkmodule.receiver.ChartLyricsBroadcastReceiver.BROADCAST_TYPES.QUEUE_CHANGED;
 
 public class ChartLyricsBroadcastReceiver extends BroadcastReceiver {
 
+    private Map<String, Boolean> lyricsObtained = new HashMap<>();
+
     private ChartLyricsBroadcastReceiverListener listener;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        // This is sent with all broadcasts, regardless of type. The value is taken from
-        // System.currentTimeMillis(), which you can compare to in order to determine how
-        // old the event is.
-        long timeSentInMs = intent.getLongExtra("timeSent", 0L);
 
         String action = intent.getAction();
 
@@ -34,7 +34,13 @@ public class ChartLyricsBroadcastReceiver extends BroadcastReceiver {
 
                 if (listener != null) {
 
-                    listener.metadataChanged(trackId, artistName, albumName, trackName, trackLengthInSec);
+                    final Boolean isLyricAlreadyGot = lyricsObtained.get(trackId);
+
+                    if (isLyricAlreadyGot == null) {
+
+                        lyricsObtained.put(trackId, true);
+                        listener.metadataChanged(trackId, artistName, albumName, trackName, trackLengthInSec);
+                    }
                 }
 
                 break;
@@ -63,11 +69,6 @@ public class ChartLyricsBroadcastReceiver extends BroadcastReceiver {
 
             default:
         }
-    }
-
-    public ChartLyricsBroadcastReceiverListener getListener() {
-
-        return listener;
     }
 
     public void setListener(ChartLyricsBroadcastReceiverListener listener) {

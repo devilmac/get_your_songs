@@ -1,15 +1,15 @@
 package com.colantoni.federico.projects.networkmodule;
 
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricRequestEnvelope.RequestBody;
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricRequestEnvelope.RequestBody.SearchLyric;
-import com.colantoni.federico.projects.networkmodule.model.searchlyric.SearchLyricResponseEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectRequestEnvelope.RequestBody.SearchLyricDirect;
-import com.colantoni.federico.projects.networkmodule.model.searchlyricdirect.SearchLyricDirectResponseEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyrictext.SearchLyricTextRequestEnvelope;
-import com.colantoni.federico.projects.networkmodule.model.searchlyrictext.SearchLyricTextRequestEnvelope.RequestBody.SearchLyricText;
-import com.colantoni.federico.projects.networkmodule.model.searchlyrictext.SearchLyricTextResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricRequestEnvelope.RequestBody;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricRequestEnvelope.RequestBody.SearchLyric;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyric.SearchLyricResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect.SearchLyricDirectRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect.SearchLyricDirectRequestEnvelope.RequestBody.SearchLyricDirect;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyricdirect.SearchLyricDirectResponseEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext.SearchLyricTextRequestEnvelope;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext.SearchLyricTextRequestEnvelope.RequestBody.SearchLyricText;
+import com.colantoni.federico.projects.networkmodule.model.chartlyrics.searchlyrictext.SearchLyricTextResponseEnvelope;
 import com.colantoni.federico.projects.networkmodule.retrofit.ChartLyricsAPI;
 import com.colantoni.federico.projects.networkmodule.service.ChartLyricsService;
 
